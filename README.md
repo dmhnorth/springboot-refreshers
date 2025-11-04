@@ -1,2 +1,2 @@
-# symmetrical-meme
-Scratch pad repo with a single commit
+# springboot-refreshers
+Scratch pad repo for spring boot
