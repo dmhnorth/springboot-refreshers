@@ -1,27 +1,26 @@
 package com.example.KotlinSpringDemo
 
-import org.springframework.data.mapping.MappingException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.servlet.NoHandlerFoundException
 
 @ControllerAdvice
 class GlobalExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException::class)
-    fun handleMappingException(ex: NoHandlerFoundException): ResponseEntity<String> {
-        return ResponseEntity(ex.message + "Hey fix me", HttpStatus.BAD_REQUEST)
+    fun handleNoHandlerFound(ex: NoHandlerFoundException): ResponseEntity<String> {
+        return ResponseEntity("404 Not Found: ${ex.requestURL} Raw Message: " + ex.message, HttpStatus.NOT_FOUND)
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(TodoNotFoundException::class)
-    fun handleTodoNotFoundException(ex: TodoNotFoundException): ResponseEntity<String> {
-        return ResponseEntity(ex.message + "Or you could fix this?", HttpStatus.NOT_FOUND)
+    fun handleTodoNotFound(ex: TodoNotFoundException): ResponseEntity<String> {
+        return ResponseEntity("Todo not found: ${ex.message}", HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(Exception::class)
+    fun handleGenericException(ex: Exception): ResponseEntity<String> {
+        return ResponseEntity("Internal Server Error: ${ex.message}", HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
-
-//Working out https://codesignal.com/learn/courses/advanced-restful-techniques/lessons/error-handling-in-spring-boot-with-kotlin
-
