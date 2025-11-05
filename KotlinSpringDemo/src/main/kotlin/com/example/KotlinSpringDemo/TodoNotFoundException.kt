@@ -1,5 +1,3 @@
 package com.example.KotlinSpringDemo
 
-class TodoNotFoundException(value: Any, message: String?) : Throwable(message) {
-
-}
+class TodoNotFoundException(message: String) : RuntimeException(message)
