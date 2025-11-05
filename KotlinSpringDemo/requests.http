@@ -27,5 +27,5 @@ Content-Type: application/json
 ### Get all the messages
 GET http://localhost:8080/
 
-### Get a specific message
-GET http://localhost:8080/caf7f432-a50b-4767-980f-1bcb93070953
+### Get a specific message(replace id with an existing one)
+GET http://localhost:8080/3cd479b1-7052-441e-b45b-9443c65ba2ec

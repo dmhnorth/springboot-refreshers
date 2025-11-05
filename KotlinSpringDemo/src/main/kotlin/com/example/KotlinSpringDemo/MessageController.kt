@@ -1,5 +1,6 @@
 package com.example.KotlinSpringDemo
 
+import com.example.KotlinSpringDemo.services.MessageService
 import com.example.KotlinSpringDemo.domain.Message
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,7 +16,7 @@ import java.net.URI
 @RequestMapping("/")
 class MessageController(private val service: MessageService) {
     @GetMapping
-    fun listMessages() = service.findMessages()
+    fun listMessages() = ResponseEntity.ok(service.findMessages())
 
     @PostMapping
     fun post(@RequestBody message: Message): ResponseEntity<Message> {
