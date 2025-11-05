@@ -13,7 +13,7 @@ class MessageService(private val db: JdbcTemplate) {
     The underscore is simply to denote unused parameters you don't use in a given lambda.
      */
     fun findMessages(): List<Message> = db.query("select * from messages") { response, _ ->
-        Message(response.getString("id"), response.getString("some text"))
+        Message(response.getString("id"), response.getString("text"))
     }
 
     fun save(message: Message): Message {
