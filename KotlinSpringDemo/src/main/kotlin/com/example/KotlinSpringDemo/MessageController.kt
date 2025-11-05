@@ -3,6 +3,7 @@ package com.example.KotlinSpringDemo
 import com.example.KotlinSpringDemo.domain.Message
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,8 +23,16 @@ class MessageController(private val service: MessageService) {
         return ResponseEntity.created(URI("/${savedMessage.id}")).body(savedMessage)
     }
 
+    @GetMapping("/{id}")
+    fun getMessage(@PathVariable id: String): ResponseEntity<Message> =
+        service.findMessageById(id).toResponseEntity()
+
+    private fun Message?.toResponseEntity(): ResponseEntity<Message> =
+        this?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound().build()
+
     @GetMapping("/indexInfo")
-    fun index(@RequestParam("name") name: String = "Anonymous") = "Hello, $name! \ncheck out http://localhost:8080/actuator/mappings"
+    fun index(@RequestParam("name") name: String = "Anonymous") =
+        "Hello, $name! \ncheck out http://localhost:8080/actuator/mappings"
 
 
     @GetMapping("/genericMessagesList")
@@ -32,6 +41,6 @@ class MessageController(private val service: MessageService) {
         Message("2", "Bonjour!"),
         Message("3", "Privet!"), //The comma here is called a trailing comma and is optional
     )
-
     //These functions return JSON responses as default due to the transitive inheritance of Jackson via Spring boot
+
 }
